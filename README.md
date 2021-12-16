@@ -63,5 +63,13 @@ BoostNavigator#push方法中有一个参数withContainer，
 Native侧会通知Flutter侧创建一个BoostContainer容器来装载Flutter Page。此时Flutter Page是由外部路由管理
 	
 -  withContainer=false，表示push一个Flutter Page不会在Native侧创建一个容器，Flutter侧也不会创建BoostContainer容器，此时路由是由内部路由管理
-	
+
+![avatar](https://github.com/xujinping/blog/blob/main/ac5wDF9Z6d.png)
+
+## pop过程
+- Flutter Navigator 尝试pop成功，则说明当前页面是一个纯Flutter Page
+- Flutter Navigator 尝试pop失败，则说明当前页面是一个FlutterBoostActivity容器包含的 Flutter Page, 需要通知Native侧 finish FlutterBoostActivity。在finish的时候设置Flutter侧的pop结果参数，然后由FlutterBoostPlugin设置监听，在addActivityResultListener中拿到结果之后通知Flutter侧。在FlutterBoostActivity的onDestroy回调方法通知Flutter侧remove Page同时刷新Flutter页面
+
+流程图如下：
+![avatar](https://github.com/xujinping/blog/blob/main/vtmI4bdmEa.png)
 	
