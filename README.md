@@ -68,7 +68,12 @@ Native侧会通知Flutter侧创建一个BoostContainer容器来装载Flutter Pag
 
 ## pop过程
 - Flutter Navigator 尝试pop成功，则说明当前页面是一个纯Flutter Page
-- Flutter Navigator 尝试pop失败，则说明当前页面是一个FlutterBoostActivity容器包含的 Flutter Page, 需要通知Native侧 finish FlutterBoostActivity。在finish的时候设置Flutter侧的pop结果参数，然后由FlutterBoostPlugin设置监听，在addActivityResultListener中拿到结果之后通知Flutter侧。在FlutterBoostActivity的onDestroy回调方法通知Flutter侧remove Page同时刷新Flutter页面
+- Flutter Navigator 尝试pop失败，则说明当前页面是一个FlutterBoostActivity容器包含的 Flutter Page, 需要通知Native侧 finish FlutterBoostActivity。在FlutterBoostActivity的onDestroy回调方法通知Flutter侧remove Page同时刷新Flutter页面
+
+
+## push等待结果，pop返回结果
+- 当push的是一个Flutter page时，结果在flutter侧的pop就返回了。
+- 当push的是一个Native page时，结果由Native侧的FlutterBoostPlugin监听onActivityResult回调然拿到结果，然后通过message channel发送到Flutter侧
 
 流程图如下：
 ![avatar](https://github.com/xujinping/blog/blob/main/maUCJULaPR.png)
